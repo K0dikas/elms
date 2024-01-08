@@ -13,6 +13,8 @@ import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Register extends JPanel {
     public Register() {
@@ -38,7 +40,7 @@ public class Register extends JPanel {
             } else if (!isMatchPassword()) {
                 Notifications.getInstance().show(Notifications.Type.ERROR, "Passwords don't match. Try again!");
             } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, "One of the fields below are blank, fill it out");
+                Notifications.getInstance().show(Notifications.Type.ERROR, "One of the fields below are either blank or incorrect, fill it out");
             }
         });
         passwordStrengthStatus = new PasswordStrengthStatus();
@@ -151,7 +153,7 @@ public class Register extends JPanel {
                 String[] passphrase = line.split(" : ");
 
                 if (passphrase[1].equals(email)) {
-                    Notifications.getInstance().show(Notifications.Type.ERROR, "Username already exists, try another one");
+                    Notifications.getInstance().show(Notifications.Type.ERROR, "Email already exists, try another one");
                     emailExists = true;
                     break;
                 }
@@ -191,12 +193,26 @@ public class Register extends JPanel {
         String password = String.valueOf(txtPassword.getPassword());
         String confirmPassword = String.valueOf(txtConfirmPassword.getPassword());
 
-        return isMatchPassword() &&
+
+        return isMatchPassword() && isSexSelected() && isEmailValid(email) &&
                 !firstName.isBlank() &&
                 !lastName.isBlank() &&
                 !email.isBlank() &&
                 !password.isBlank() &&
                 !confirmPassword.isBlank();
+    }
+
+    private boolean isSexSelected() {
+        return Sex.getSelection() != null;
+    }
+
+    private boolean isEmailValid(String email) {
+        String emailRegex = "^(?=.{1,64}@)[A-Za-z_-]+(\\.[A-Za-z_-]+)*@"
+                + "[^-][A-Za-z-]+(\\.[A-Za-z-]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
     }
 
     private JTextField txtFirstName;
