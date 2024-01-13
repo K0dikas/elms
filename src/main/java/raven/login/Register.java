@@ -192,9 +192,11 @@ public class Register extends JPanel {
         String email = txtEmail.getText();
         String password = String.valueOf(txtPassword.getPassword());
         String confirmPassword = String.valueOf(txtConfirmPassword.getPassword());
-
+        String lettersRegex = "[a-zA-Z]+$";
 
         return isMatchPassword() && isSexSelected() && isEmailValid(email) &&
+                firstName.matches(lettersRegex) &&
+                lastName.matches(lettersRegex) &&
                 !firstName.isBlank() &&
                 !lastName.isBlank() &&
                 !email.isBlank() &&
