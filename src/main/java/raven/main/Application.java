@@ -28,7 +28,7 @@ public class Application extends JFrame {
         setUndecorated(true);
         setTitle("FlatLaf Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(new Dimension(1200, 1500)); // 750 x 590
+        setSize(new Dimension(1200, 1500)); // 750 x 590 | FULL: 1200 x 1500
         setLocationRelativeTo(null);
         setContentPane(new Login());
         Notifications.getInstance().setJFrame(this);
